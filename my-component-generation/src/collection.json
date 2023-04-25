@@ -1,0 +1,18 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "component": {
+      "aliases": [
+        "c"
+      ],
+      "description": "A blank schematic.",
+      "factory": "./my-component-generation/index#myComponentGeneration",
+      "schema": "./my-component-generation/schema.json"
+    },
+    "my-component-generation": {
+      "description": "A blank schematic.",
+      "factory": "./my-component-generation/index#myComponentGeneration",
+      "schema": "./my-component-generation/schema.json"
+    }
+  }
+}
