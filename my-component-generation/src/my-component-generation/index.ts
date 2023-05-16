@@ -9,7 +9,7 @@ import {
   SchematicsException,
   template,
   Tree,
-  url
+  url,
 } from '@angular-devkit/schematics';
 import { join, normalize } from 'path';
 import { getWorkspace } from '@schematics/angular/utility/workspace'
@@ -18,12 +18,20 @@ import { getWorkspace } from '@schematics/angular/utility/workspace'
 // per file.
 export function myComponentGeneration(_options: any): Rule {
   return async (tree: Tree, _context: SchematicContext) => {
+    console.log('from schematic');
     await setupOptions(tree, _options);
 
     const movePath = normalize(_options.path + '/');
-    const templateSource = apply(url('./files/src'), [
-      template({..._options}),
-      move(movePath)
+
+    // This is our Template source
+    const templateSource = apply(
+      url('./files/src'),
+        // Array of rules
+      [
+        template({..._options}),
+
+        // Move into the proper destination
+        move(movePath)
     ]);
 
     return chain([mergeWith(templateSource, MergeStrategy.Overwrite)]);
