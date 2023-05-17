@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine src/**/*_spec.js",
-    "generate-component": "ng g c"
+    "build-and-generate-component": "npm run build && ng g c"
   },
   "keywords": [
     "schematics"

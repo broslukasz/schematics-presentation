@@ -1,21 +1,47 @@
 import { Tree } from '@angular-devkit/schematics';
-import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 
+import {Schema as WorkspaceOptions} from '@schematics/angular/workspace/schema';
+import {Schema as ApplicationOptions, Style} from '@schematics/angular/application/schema';
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('my-component-generation', () => {
-  it('works', async () => {
+describe('my-component-generation', async () => {
+    const testRunner = new SchematicTestRunner(
+      'schematics', collectionPath);
 
-    const runner = new SchematicTestRunner('schematics', collectionPath);
-    const appOptions: any = { 
-      name: 'schematest'
+    const workspaceOptions: WorkspaceOptions = {
+      name: 'workspace',
+      newProjectRoot: 'projects',
+      version: '6.0.0',
     };
 
-    await runner.runSchematic('my-component-generation', appOptions, Tree.empty());
+    describe('', () => {
+      const appOptions: ApplicationOptions = {
+        name: 'bar',
+        inlineStyle: false,
+        inlineTemplate: false,
+        routing: false,
+        style: Style.Css,
+        skipTests: false,
+        skipPackageJson: false,
+      };
 
-    console.log('from test')
+      let appTree: UnitTestTree;
 
-    // expect(tree.files).toEqual([]);
-  });
+      beforeEach(async () => {
+          appTree = await testRunner.runExternalSchematic('@schematics/angular', 'workspace', workspaceOptions);
+          appTree = await testRunner.runExternalSchematic('@schematics/angular', 'application', appOptions, appTree);
+      });
+
+      it('fails with missing tree', async () => {
+        console.log('from test')
+
+        const tree = await testRunner.runSchematic('my-component-generation', {
+          name: 'test-name'
+        }, Tree.empty())
+
+        console.log('tree', tree)
+    });
+    })
 });

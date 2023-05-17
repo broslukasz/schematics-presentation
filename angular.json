@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli":{
-    "schematicCollections": ["my-component-generation"]
+    "schematicCollections": ["my-component-generation", "component"]
   },
   "version": 1,
   "newProjectRoot": "projects",
